@@ -1,16 +1,21 @@
 # scheduler-framework-sample
 
-This repo is a sample for Kubernetes scheduler framework on k8s 1.20.
+This repo is a sample for Kubernetes scheduler framework on k8s 1.20.12
 
-## Deploy
+## Compile
 
 ```shell
-$ kubectl apply -f deploy/sample-scheduler.yaml
+    make build
+```
+
+## image
+```shell
+    make image
 ```
 
 ## Test
 ```shell
-$ kubectl apply -f deploy/test-scheduler.yaml
+    make test
 ```
 
 Then watch sample-scheduler pod logs.

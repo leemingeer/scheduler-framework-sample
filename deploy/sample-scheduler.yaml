@@ -156,24 +156,23 @@ data:
       leaderElect: true
       resourceName: sample-scheduler
       resourceNamespace: kube-system
-    clientConnection:
-      kubeconfig: "/kube/config"
     profiles:
     - schedulerName: sample-scheduler
       plugins:
-       preFilter:
-        enabled:
-        - name: "sample-plugin"
-       preBind:
-        enabled:
-        - name: "sample-plugin"
-      pluginConfig:
-      - name: "sample-plugin"
-        args:
-          kubeConfigPath: "/kube/config"
-          favorite_color: "#326CE5"
-          favorite_number: 7
-          thanks_to: "thockin"
+        preFilter:
+          enabled:
+          - name: "sample-plugin"
+        preBind:
+          enabled:
+          - name: "sample-plugin"
+        score:
+          enabled:
+          - name: "sample-plugin"
+        queueSort:
+          enabled:
+            - name: "sample-plugin"
+          disabled:
+            - name: "*"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -198,12 +197,9 @@ spec:
         - name: scheduler-config
           configMap:
             name: scheduler-config
-        - name: kubeconfig
-          hostPath:
-            path: /root/.kube/ 
       containers:
         - name: scheduler-ctrl
-          image: leemingeer/sample-scheduler:v0.1.6
+          image: leemingeer/sample-scheduler:v1.0.2
           imagePullPolicy: IfNotPresent
           args:
             - sample-scheduler-framework
@@ -215,5 +211,3 @@ spec:
           volumeMounts:
             - name: scheduler-config
               mountPath: /etc/kubernetes
-            - name: kubeconfig
-              mountPath: /kube 
